@@ -31,7 +31,7 @@
 
 
 
-t_hex* hash_array[HASH_SIZE];
+t_hash_items* hash_array[HASH_SIZE];
 t_hex* hex;
 t_hex* dummy_hex;
 
@@ -181,6 +181,7 @@ int main(int argc, const char* argv[])
         winner = 1;//Ez game
     }
     printf("Game over\n");
+	// comments
     (void)players;
 }
 
