@@ -1,6 +1,6 @@
 #include "../includes/cluster.h"
 
-int init_player(const char* path, player_t* player)
+int init_player(const char* path, t_player* player)
 {
     assert(player != NULL);
     int ret = pipe(player->stdin);
@@ -54,16 +54,12 @@ int init_player(const char* path, player_t* player)
             exit(1);
         }
     }
-    return 0;
+    return SUCCES;
 }
 
-int init_grid(t_hex *grid[][])
+int init_grid(t_hex *grid)
 {
-	*grid = (t_hex **)malloc(sizeof(t_hex *) * ((SIZE * 4 - 3)+ 1));
-	for (size_t i = 0; i < (SIZE*4-3); i++)
-	{
-		*grid[i] = malloc(sizeof(t_hex) * ((SIZE * 4 - 3)));
-	}
+
 	
 
 	return SUCCES;
@@ -71,9 +67,8 @@ int init_grid(t_hex *grid[][])
 
 int init_data(t_data *data)
 {
-	init_grid(&(data->grid));
 
-	return (SUCCES);
+	return SUCCES;
 }
 
 
