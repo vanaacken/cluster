@@ -20,41 +20,6 @@ int hashCode(int key) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 struct DataItem *search(int key) {
    //get the hash 
    int hashIndex = hashCode(key);  

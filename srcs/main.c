@@ -31,13 +31,15 @@
 
 
 
-t_hash_items* hash_array[HASH_SIZE];
+t_hash_item* hash_array[HASH_SIZE];
+t_hash_item* item;
+t_hash_item* dummy_item;
 t_hex* hex;
 t_hex* dummy_hex;
 
 int hash(t_axial key)
 {
-	return (abs(key.q) * 10 + abs(key.r)) % HASH_SIZE;
+	return (abs(key.q) * 19 + abs(key.r) * 23) % HASH_SIZE;
 }
 
 bool compare_axial(t_axial lhs, t_axial rhs)
@@ -47,12 +49,13 @@ bool compare_axial(t_axial lhs, t_axial rhs)
 
 t_hex *search(t_axial key)
 {
+
 	int hash_index = hash(key);
 	while(hash_array[hash_index] != NULL)
 	{
-		if (compare_axial(hash_array[hash_index]->axial, key))
+		if (compare_axial(hash_array[hash_index]->hex->axial, key))
 		{
-			return (hash_array[hash_index]);
+			return (hash_array[hash_index]->hex);
 		}
 		++hash_index;
 		hash_index %= HASH_SIZE;
@@ -63,23 +66,64 @@ t_hex *search(t_axial key)
 void insert(t_axial key, int color)
 {
 	t_hex *hex = (t_hex*)malloc(sizeof(t_hex));
+	t_hash_item *item = (t_hash_item*)malloc(sizeof(t_hash_item));
 	hex->axial = key;
 	hex->color = color;
+	item->hex = hex;
+	item->next = NULL;
 	int hash_index = hash(key);
-	while(hash_array[hash_index] != NULL && hash_array[hash_index]->axial.q != -1)
+	if (hash_array[hash_index] == NULL)
 	{
-		++hash_index;
-		hash_index %= HASH_SIZE;
+		hash_array[hash_index] = item;
 	}
-	hash_array[hash_index] = hex;
+	else
+	{
+		t_hash_item *tmp = hash_array[hash_index];
+		while(tmp->next != NULL)
+		{
+			tmp = tmp->next;
+		}
+		tmp->next = item;
+	}
 }
 
-t_hex * delete(t_hex *hex)
+t_hex * delete(t_axial axial)
 {
-	int hash_index = hash(hex->axial);
+	int hash_index = hash(axial);
+
+
+	if (hash_array[hash_index] != NULL)
+	{
+		if (compare_axial(hash_array[hash_index]->hex->axial,axial))
+		{
+			t_hash_item *tmp = hash_array[hash_index]->next;
+			free()
+			hash_array[hash_index]->next == hash_array[hash_index]->next->next;
+
+		}
+		
+		t_hash_item *tmp_prev = hash_array[hash_index];
+		t_hash_item *tmp = hash_array[hash_index]->next;
+		if (compare_axial(tmp->hex->axial, axial))
+		{
+
+		}
+		
+
+	}
+	else
+	{
+
+	}
+
+
+
+	return (NULL);
+
+
 	while (hash_array[hash_index] != NULL)
 	{
-		if (compare_axial(hash_array[hash_index]->axial, hex->axial))
+		if (compare_axial(hash_array[hash_index]->hex->axial, hex->axial))
 		{
 			t_hex* tmp = hash_array[hash_index];
 			hash_array[hash_index] = dummy_hex;
@@ -91,26 +135,28 @@ t_hex * delete(t_hex *hex)
 	return NULL;
 }
 
-void display_hash_array()
-{
-	for (size_t i = 0; i < HASH_SIZE; i++)
-	{
-		if (hash_array[i] != NULL)
-		{
-			printf("[Axial:(%d, %d); Color: %d]\n", hash_array[i]->axial.q, hash_array[i]->axial.r, hash_array[i]->color);
-		}
-		else
-		{
-			printf(" ~~ \n");
-		}
-	}
-}
+// void display_hash_array()
+// {
+// 	for (size_t i = 0; i < HASH_SIZE; i++)
+// 	{
+// 		if (hash_array[i] != NULL)
+// 		{
+// 			printf("[Axial:(%d, %d); Color: %d]\n", hash_array[i]->axial.q, hash_array[i]->axial.r, hash_array[i]->color);
+// 		}
+// 		else
+// 		{
+// 			printf(" ~~ \n");
+// 		}
+// 	}
+// }
 
 
 void init_hash_array()
 {
+	dummy_item = (t_hash_item*)malloc(sizeof(t_hash_item));
 	dummy_hex = (t_hex*)malloc(sizeof(t_hex));
 	dummy_hex->axial.q = -1;
+	dummy_item->hex = dummy_hex;
 }
 
 

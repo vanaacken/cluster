@@ -39,6 +39,11 @@ typedef struct s_hex{
 	int color;
 }		t_hex;
 
+typedef struct s_hash_item{
+	t_hex *hex;
+	struct s_hash_item *next;
+}	t_hash_item;
+
 typedef struct s_supply{
 	int *colors; // array of colors; dependend of game
 } t_supply;
@@ -51,11 +56,11 @@ typedef struct s_player
     FILE* reader;
 } t_player;
 
-typedef struct s_data{
-	// grid struct hash or whatever
-	t_player	player_1;
-	t_player	player_2;
-} t_data;
+// typedef struct s_data{
+// 	// grid struct hash or whatever
+// 	t_player	player_1;
+// 	t_player	player_2;
+// } t_data;
 
 
 
