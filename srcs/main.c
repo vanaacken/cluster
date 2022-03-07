@@ -1,9 +1,5 @@
 #include "../includes/cluster.h"
-#include <sys/types.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
+
 
 
 #define MAX_PLAYER 2
@@ -130,11 +126,11 @@ void insert_new_hex(int q, int r, int color)
 int main(int argc, const char* argv[])
 {
 
-    if (argc != 3)
-    {
-        printf("Usage: %s <player1_exe> <player2_exe>\n", argv[0]);
-        return 1;
-    }
+    // if (argc != 3)
+    // {
+    //     printf("Usage: %s <player1_exe> <player2_exe>\n", argv[0]);
+    //     return 1;
+    // }
     t_player players[MAX_PLAYER] = {0};
     for (int i = 0; i < MAX_PLAYER; i++)
     {

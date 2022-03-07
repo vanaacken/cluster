@@ -3,12 +3,19 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
 
 #define SIZE 5
 #define N_COLORS 2
 
 #define SUCCES 1
 #define ERROR 0
+
+
 
 typedef struct s_cube{
 	int q;
@@ -29,8 +36,7 @@ typedef struct s_color{
 
 typedef struct s_hex{
 	t_axial axial;
-	t_color color;
-	bool sentinel;
+	int color;
 }		t_hex;
 
 typedef struct s_supply{
@@ -43,10 +49,10 @@ typedef struct s_player
     int stdin[2];
     int stdout[2];
     FILE* reader;
-} player_t;
+} t_player;
 
 typedef struct s_data{
-	t_hex		grid[][];
+	// grid struct hash or whatever
 	t_player	player_1;
 	t_player	player_2;
 } t_data;
@@ -54,8 +60,8 @@ typedef struct s_data{
 
 
 
-int init_player(const char* path, player_t* player);
-int init_grid(t_hex *grid[][]);
+int init_player(const char* path, t_player* player);
+int init_grid(t_hex *grid);
 int init_data(t_data *data);
 
 
