@@ -34,23 +34,33 @@ typedef struct s_hex{
 }		t_hex;
 
 typedef struct s_supply{
-	int n_color_1;
-	int n_color_2;
+	int *colors; // array of colors; dependend of game
 } t_supply;
 
-typedef struct s_player{
-	t_supply supply;
-	bool first;
-}	t_player;
-
+typedef struct s_player
+{
+    pid_t pid;
+    int stdin[2];
+    int stdout[2];
+    FILE* reader;
+} player_t;
 
 typedef struct s_data{
-	t_hex		**grid;
+	t_hex		grid[][];
 	t_player	player_1;
 	t_player	player_2;
-
-
 } t_data;
+
+
+
+
+int init_player(const char* path, player_t* player);
+int init_grid(t_hex *grid[][]);
+int init_data(t_data *data);
+
+
+
+
 
 
 #endif
