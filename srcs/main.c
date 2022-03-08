@@ -1,9 +1,9 @@
 #include "../includes/cluster.h"
-
+#include <math.h>
 
 
 #define MAX_PLAYER 2
-#define HASH_SIZE 50
+#define HASH_SIZE 130
 
 
 
@@ -39,12 +39,12 @@ t_hex* dummy_hex;
 
 int hash(t_axial key)
 {
-	return (abs(key.q) * 19 + abs(key.r) * 23) % HASH_SIZE;
+	return ((key.q+SIZE) * 13 + (key.r+SIZE) * 23) % HASH_SIZE;
 }
 
 bool compare_axial(t_axial lhs, t_axial rhs)
 {
-	return (lhs.q == rhs.q && lhs.r == rhs.q);
+	return (lhs.q == rhs.q && lhs.r == rhs.r);
 }
 
 t_hex *search(t_axial key)
@@ -63,7 +63,7 @@ t_hex *search(t_axial key)
 	return NULL;
 }
 
-void insert(t_axial key, int color)
+int insert(t_axial key, int color)
 {
 	t_hex *hex = (t_hex*)malloc(sizeof(t_hex));
 	t_hash_item *item = (t_hash_item*)malloc(sizeof(t_hash_item));
@@ -81,72 +81,82 @@ void insert(t_axial key, int color)
 		t_hash_item *tmp = hash_array[hash_index];
 		while(tmp->next != NULL)
 		{
+			if (compare_axial(tmp->hex->axial, hex->axial))
+			{
+				free(hex);
+				free(item);
+				return 0;
+			}
 			tmp = tmp->next;
+		}
+		if (compare_axial(tmp->hex->axial, hex->axial))
+		{
+			free(hex);
+			free(item);
+			return 0;
 		}
 		tmp->next = item;
 	}
+	return 1;
 }
 
-t_hex *delete(t_axial axial)
+int delete(t_axial axial)
 {
 	int hash_index = hash(axial);
-
-
 	t_hash_item *tmp;
-	if (hash_array[hash_index] != NULL)
+	t_hash_item *prev;
+	if (hash_array[hash_index] == NULL)
+		return 0;
+	tmp = hash_array[hash_index];
+	if (compare_axial(hash_array[hash_index]->hex->axial, axial))
 	{
-		if (compare_axial(hash_array[hash_index]->hex->axial, axial))
+		hash_array[hash_index] = hash_array[hash_index]->next;
+		free(tmp->hex);
+		free(tmp);
+		return (1);
+	}
+	prev = tmp;
+	tmp = tmp->next;
+	while(tmp)
+	{
+		if (compare_axial(tmp->hex->axial, axial))
 		{
-			tmp = hash_array[hash_index];
-			hash_array[hash_index] = hash_array[hash_index]->next;
+			prev->next = tmp->next;
 			free(tmp->hex);
 			free(tmp);
+			return (1);
+		}
+		prev = tmp;
+		tmp = tmp->next;
+	}
+	return (0);
+
+}
+
+void display_hash_array()
+{
+	int n = 0;
+	for (size_t i = 0; i < HASH_SIZE; i++)
+	{
+		if (hash_array[i] != NULL)
+		{
+			t_hash_item *tmp = hash_array[i];
+			while (tmp != NULL)
+			{
+				printf("[Axial:(%d, %d); Color: %d] ;", tmp->hex->axial.q, tmp->hex->axial.r, tmp->hex->color);
+				tmp = tmp->next;
+				n++;
+			}
 		}
 		else
 		{
-			t_hash_item *head;
-			head = hash_array[hash_index];
-			while(head->next != NULL )
-			{
-				// WORK HERE
-			}
-
+			printf(" ~~");
 		}
-		
-
+		printf("\n");
 	}
+	printf("total fille: %d\n", n);
 
-	return (NULL);
-
-
-	while (hash_array[hash_index] != NULL)
-	{
-		if (compare_axial(hash_array[hash_index]->hex->axial, hex->axial))
-		{
-			t_hex* tmp = hash_array[hash_index];
-			hash_array[hash_index] = dummy_hex;
-			return (tmp);
-		}
-		++hash_index;
-		hash_index %= HASH_SIZE;
-	}
-	return NULL;
 }
-
-// void display_hash_array()
-// {
-// 	for (size_t i = 0; i < HASH_SIZE; i++)
-// 	{
-// 		if (hash_array[i] != NULL)
-// 		{
-// 			printf("[Axial:(%d, %d); Color: %d]\n", hash_array[i]->axial.q, hash_array[i]->axial.r, hash_array[i]->color);
-// 		}
-// 		else
-// 		{
-// 			printf(" ~~ \n");
-// 		}
-// 	}
-// }
 
 
 void init_hash_array()
@@ -167,6 +177,28 @@ void insert_new_hex(int q, int r, int color)
 }
 
 
+// SIZE 
+
+
+
+int insert_in_column(int column)
+{
+	t_axial axial;
+	axial.q = column;
+	axial.r = fmax(-SIZE + 1, -SIZE + 1 - axial.q);
+	int column_len = (2*SIZE -1 - abs(column));
+	printf("column: %d len: %d;\n", column, column_len);
+	for (int i = column_len - 1; i >= 0; --i)
+	{
+		printf("[%d, %d] ;", axial.q, axial.r + i);
+	}
+	printf("\n");
+
+	
+	return 1;
+}
+
+
 int main(int argc, const char* argv[])
 {
 
@@ -183,16 +215,22 @@ int main(int argc, const char* argv[])
 
 
 	init_hash_array();
-	insert_new_hex(1,3,1);
-	insert_new_hex(2,3,1);
-	insert_new_hex(3,3,2);
-	insert_new_hex(4,3,2);
-	insert_new_hex(5,3,2);
-	insert_new_hex(5,4,3);
-	insert_new_hex(5,5,3);
-	insert_new_hex(5,6,1);
-	insert_new_hex(5,7,2);
-	display_hash_array();
+	for (int i = -SIZE+1; i < SIZE; i++)
+	{
+		insert_in_column(i);
+	}
+	
+	// int n = 0;
+	// for (int i = -SIZE + 1; i < SIZE; i++)
+	// {
+	// 	for (int j = -SIZE + 1; j < SIZE; j++)
+	// 	{
+	// 		insert_new_hex(i,j,1);
+	// 		n++;
+	// 	}
+	// }
+	// display_hash_array();
+
 	
 
 
