@@ -87,36 +87,34 @@ void insert(t_axial key, int color)
 	}
 }
 
-t_hex * delete(t_axial axial)
+t_hex *delete(t_axial axial)
 {
 	int hash_index = hash(axial);
 
 
+	t_hash_item *tmp;
 	if (hash_array[hash_index] != NULL)
 	{
-		if (compare_axial(hash_array[hash_index]->hex->axial,axial))
+		if (compare_axial(hash_array[hash_index]->hex->axial, axial))
 		{
-			t_hash_item *tmp = hash_array[hash_index]->next;
-			free()
-			hash_array[hash_index]->next == hash_array[hash_index]->next->next;
-
+			tmp = hash_array[hash_index];
+			hash_array[hash_index] = hash_array[hash_index]->next;
+			free(tmp->hex);
+			free(tmp);
 		}
-		
-		t_hash_item *tmp_prev = hash_array[hash_index];
-		t_hash_item *tmp = hash_array[hash_index]->next;
-		if (compare_axial(tmp->hex->axial, axial))
+		else
 		{
+			t_hash_item *head;
+			head = hash_array[hash_index];
+			while(head->next != NULL )
+			{
+				// WORK HERE
+			}
 
 		}
 		
 
 	}
-	else
-	{
-
-	}
-
-
 
 	return (NULL);
 
