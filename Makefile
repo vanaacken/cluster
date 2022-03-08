@@ -1,10 +1,12 @@
 NAME	=		cluster
 
-SRCS	=		./src/*.c
-
+SRCS	=		./srcs/main.c \
+				./srcs/create_interface.c \
+				./srcs/init.c \
+				./srcs/my_mlx_pixel_put.c
 FLAGS	=		-Wall -Werror -Wextra -Imlx -g
 
-MLX		=		libraries/mlx/libmlx.dylib
+MLX		=		mlx/libmlx.dylib
 
 HEADER	=		includes/*.h
 
@@ -20,10 +22,10 @@ $(NAME): $(OBJS) $(MLX)
 	$(CC) $(FLAGS) -c $< -o $@
 
 $(MLX):
-	$(MAKE) -C libraries/mlx && test -e libmlx.dylib || ln -sf libraries/mlx/libmlx.dylib libmlx.dylib 
+	$(MAKE) -C mlx && test -e libmlx.dylib || ln -sf mlx/libmlx.dylib libmlx.dylib 
 
 clean:
-	make clean -C libraries/mlx
+	make clean -C mlx
 	rm -f $(OBJS) $(BONUS_OBJS)
 	rm -f libmlx.dylib
 

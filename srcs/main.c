@@ -201,7 +201,7 @@ int insert_in_column(int column)
 
 int main(int argc, const char* argv[])
 {
-
+	(void)argc;
     // if (argc != 3)
     // {
     //     printf("Usage: %s <player1_exe> <player2_exe>\n", argv[0]);
@@ -219,6 +219,7 @@ int main(int argc, const char* argv[])
 	{
 		insert_in_column(i);
 	}
+	create_interface();
 	
 	// int n = 0;
 	// for (int i = -SIZE + 1; i < SIZE; i++)
