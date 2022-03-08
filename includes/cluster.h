@@ -5,6 +5,7 @@
 #include <stdlib.h>
 # include "../mlx/mlx.h"
 # include <math.h>
+# include "color.h"
 
 #define SIZE 5
 #define N_COLORS 2
