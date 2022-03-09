@@ -212,23 +212,33 @@ int main(int argc, const char* argv[])
 
 
 
-
-
-	create_interface();
+	t_axial tmp;
+	for (int i = -4; i < 4; i++)
+	{
+		for (int j = -4; j < 4; j++)
+		{
+			tmp.q = i;
+			tmp.r = j;
+			insert(tmp, 1);
+		}
+		
+	}
 	
+	insert_in_column(-4);
 	// int n = 0;
 	// for (int i = -SIZE + 1; i < SIZE; i++)
 	// {
 	// 	for (int j = -SIZE + 1; j < SIZE; j++)
 	// 	{
-	// 		insert_new_hex(i,j,1);
+	// 		insert_in_column(i,j,1);
 	// 		n++;
 	// 	}
 	// }
-	// display_hash_array();
+	display_hash_array();
 
 	
 
+	// create_interface();
 
 
 
