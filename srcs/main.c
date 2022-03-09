@@ -194,22 +194,6 @@ int insert_in_column(int column)
 }
 
 
-void add_axial(int q, int r)
-{
-	t_axial *axial = (t_axial*)malloc(sizeof(t_axial));
-	
-}
-
-void init_grid_axial()
-{
-	t_axial *axial = (t_axial*)malloc(sizeof(t_axial));
-	for (int i = -SIZE+1; i < SIZE; i++)
-	{
-		insert_in_column(i);
-	}
-}
-
-
 
 int main(int argc, const char* argv[])
 {
@@ -230,7 +214,7 @@ int main(int argc, const char* argv[])
 
 
 
-	// create_interface();
+	create_interface();
 	
 	// int n = 0;
 	// for (int i = -SIZE + 1; i < SIZE; i++)

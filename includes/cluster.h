@@ -10,12 +10,16 @@
 #include <assert.h>
 # include "../mlx/mlx.h"
 # include <math.h>
+# include "color.h"
 
 #define SIZE 5
 #define N_COLORS 2
 
 #define SUCCES 1
 #define ERROR 0
+
+#define EPSILON 0.5
+#define PADDING 4
 
 typedef struct s_img {
 	void	*img;

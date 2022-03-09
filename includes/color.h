@@ -21,7 +21,8 @@
 # define CYAN_BOLD    	"\033[1;36m"
 # define WHITE_BOLD   	"\033[1;37m"
 
-
+# define BACKGROUND_COLOR	0xfaebd7
+# define BORDER_COLOR 0x483d8b
 
 
 
