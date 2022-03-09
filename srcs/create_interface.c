@@ -69,6 +69,46 @@ int	draw_one_hex(t_img *canvas, int center_x, int center_y)
 	return (0);
 }
 
+// int	create_grid(t_img *canvas)
+// {
+// 	float x;
+// 	float y = 0;
+// 	int row = 0;
+// 	float w = 2 * g_size;
+// 	float h = sqrt(3) * g_size;
+
+// 	while (y < 1000)
+// 	{
+// 		x = 0;
+// 		while (x < 1000)
+// 		{
+// 			my_mlx_pixel_put(canvas, x, y, 0xfaebd7);
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// 	y = 0;
+// 	while (y < 1000 - (g_size + (g_size / 5)))
+// 	{
+// 		x = 0;
+// 		if (row % 2 != 0)
+// 			x += w * 3/4;
+// 		while (x < 1000 - g_size)
+// 		{
+// 			if (y >= h/2 * 2 && y <= h/2 * 19 && x == (g_size * 3) * 3)
+// 				draw_one_hex(canvas, x + g_size, y + g_size);
+// 			else if (y >= h/2 * 3 && y <= h/2 * 17 && (x >= (w * 3/4) * 4 && x <= (w * 3/4) * 8))
+// 				draw_one_hex(canvas, x + g_size, y + g_size);
+// 			else if (y >= h/2 * 5 && y <= h/2 * 15 && x >= (g_size * 3) && x <= (g_size * 3) * 5)
+// 				draw_one_hex(canvas, x + g_size, y + g_size);
+// 			x += g_size * 3;
+// 		}
+// 		row++;
+// 		y += h / 2;
+// 	}
+// 	return (0);
+// }
+
 int	create_grid(t_img *canvas)
 {
 	float x;
@@ -87,7 +127,12 @@ int	create_grid(t_img *canvas)
 		}
 		y++;
 	}
+
+
+
+
 	y = 0;
+
 	while (y < 1000 - (g_size + (g_size / 5)))
 	{
 		x = 0;
@@ -108,6 +153,7 @@ int	create_grid(t_img *canvas)
 	}
 	return (0);
 }
+
 
 int	place_hex(t_img *canvas, int center_x, int center_y)
 {

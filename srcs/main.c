@@ -37,6 +37,7 @@ t_hash_item* dummy_item;
 t_hex* hex;
 t_hex* dummy_hex;
 
+
 int hash(t_axial key)
 {
 	return ((key.q+SIZE) * 13 + (key.r+SIZE) * 23) % HASH_SIZE;
@@ -168,16 +169,9 @@ void init_hash_array()
 }
 
 
-void insert_new_hex(int q, int r, int color)
-{
-	t_axial ret;
-	ret.q = q;
-	ret.r = r;
-	insert(ret, color);
-}
 
 
-// SIZE 
+
 
 
 
@@ -190,6 +184,7 @@ int insert_in_column(int column)
 	printf("column: %d len: %d;\n", column, column_len);
 	for (int i = column_len - 1; i >= 0; --i)
 	{
+		// coordinates[axial.q + SIZE - 1][2 * axial.r + axial.q + SIZE - 1] = 0;
 		printf("[%d, %d] ;", axial.q, axial.r + i);
 	}
 	printf("\n");
@@ -197,6 +192,23 @@ int insert_in_column(int column)
 	
 	return 1;
 }
+
+
+void add_axial(int q, int r)
+{
+	t_axial *axial = (t_axial*)malloc(sizeof(t_axial));
+	
+}
+
+void init_grid_axial()
+{
+	t_axial *axial = (t_axial*)malloc(sizeof(t_axial));
+	for (int i = -SIZE+1; i < SIZE; i++)
+	{
+		insert_in_column(i);
+	}
+}
+
 
 
 int main(int argc, const char* argv[])
@@ -212,14 +224,13 @@ int main(int argc, const char* argv[])
     {
         init_player(argv[i+1], &players[i]);
     }
-
-
 	init_hash_array();
-	for (int i = -SIZE+1; i < SIZE; i++)
-	{
-		insert_in_column(i);
-	}
-	create_interface();
+
+
+
+
+
+	// create_interface();
 	
 	// int n = 0;
 	// for (int i = -SIZE + 1; i < SIZE; i++)
