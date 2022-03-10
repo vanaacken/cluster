@@ -8,18 +8,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-# include "../mlx/mlx.h"
 # include <math.h>
 # include "color.h"
+# include "../MLX42/include/MLX42/MLX42.h"
 
-#define SIZE 5
+#define SIZE 10
+#define G_SIZE 20
 #define N_COLORS 2
+#define OFFSET_WINDOW 500
 
 #define SUCCES 1
 #define ERROR 0
 
 #define EPSILON 0.5
 #define PADDING 4
+
+#define HASH_SIZE 130
 
 typedef struct s_img {
 	void	*img;
@@ -80,15 +84,22 @@ typedef struct s_data{
 	t_player	player_2;
 } t_data;
 
-
-
+t_hash_item* hash_array[HASH_SIZE];
+t_hash_item* item;
+t_hash_item* dummy_item;
+t_hex* hex;
+t_hex* dummy_hex;
 
 int init_player(const char* path, t_player* player);
 int init_grid(t_hex *grid);
 int init_data(t_data *data);
 
+int insert(t_axial key, int color, t_hash_item **cur_hash_array[HASH_SIZE]);
+int delete(t_axial axial, t_hash_item **cur_hash_array[HASH_SIZE]);
+
 //my_pixel_put
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+int		create_interface(void);
 
 int	create_interface(void);
 

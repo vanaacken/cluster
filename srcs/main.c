@@ -3,8 +3,6 @@
 
 
 #define MAX_PLAYER 2
-#define HASH_SIZE 130
-
 
 
 
@@ -28,14 +26,6 @@
 // being python / rust / C++ or whatever (not JS it's not a language you better use brainfuck...)
 
 //+[----->+++<]>+.++++++++++++..----.+++.+[-->+<]>.-----------..++[->++<]>.+++++++.+++++++++++.[++>---<]>.--[-->+++++<]>--.-[--->+<]>.-[----->++<]>-.++++.[--->++++<]>-.--[--->+<]>.>+[--->++<]>++.----------.-[--->+<]>++.>-[--->+<]>.>++++++++++..
-
-
-
-t_hash_item* hash_array[HASH_SIZE];
-t_hash_item* item;
-t_hash_item* dummy_item;
-t_hex* hex;
-t_hex* dummy_hex;
 
 
 int hash(t_axial key)
@@ -64,7 +54,7 @@ t_hex *search(t_axial key)
 	return NULL;
 }
 
-int insert(t_axial key, int color)
+int insert(t_axial key, int color, t_hash_item **cur_hash_array[HASH_SIZE])
 {
 	t_hex *hex = (t_hex*)malloc(sizeof(t_hex));
 	t_hash_item *item = (t_hash_item*)malloc(sizeof(t_hash_item));
@@ -73,13 +63,13 @@ int insert(t_axial key, int color)
 	item->hex = hex;
 	item->next = NULL;
 	int hash_index = hash(key);
-	if (hash_array[hash_index] == NULL)
+	if (*cur_hash_array[hash_index] == NULL)
 	{
-		hash_array[hash_index] = item;
+		*cur_hash_array[hash_index] = item;
 	}
 	else
 	{
-		t_hash_item *tmp = hash_array[hash_index];
+		t_hash_item *tmp = *cur_hash_array[hash_index];
 		while(tmp->next != NULL)
 		{
 			if (compare_axial(tmp->hex->axial, hex->axial))
@@ -101,17 +91,17 @@ int insert(t_axial key, int color)
 	return 1;
 }
 
-int delete(t_axial axial)
+int delete(t_axial axial, t_hash_item **cur_hash_array[HASH_SIZE])
 {
 	int hash_index = hash(axial);
 	t_hash_item *tmp;
 	t_hash_item *prev;
-	if (hash_array[hash_index] == NULL)
+	if (*cur_hash_array[hash_index] == NULL)
 		return 0;
-	tmp = hash_array[hash_index];
-	if (compare_axial(hash_array[hash_index]->hex->axial, axial))
+	tmp = *cur_hash_array[hash_index];
+	if (compare_axial((*cur_hash_array)[hash_index]->hex->axial, axial))
 	{
-		hash_array[hash_index] = hash_array[hash_index]->next;
+		*cur_hash_array[hash_index] = (*cur_hash_array)[hash_index]->next;
 		free(tmp->hex);
 		free(tmp);
 		return (1);
@@ -159,7 +149,6 @@ void display_hash_array()
 
 }
 
-
 void init_hash_array()
 {
 	dummy_item = (t_hash_item*)malloc(sizeof(t_hash_item));
@@ -167,13 +156,6 @@ void init_hash_array()
 	dummy_hex->axial.q = -1;
 	dummy_item->hex = dummy_hex;
 }
-
-
-
-
-
-
-
 
 int insert_in_column(int column)
 {
@@ -198,33 +180,33 @@ int insert_in_column(int column)
 int main(int argc, const char* argv[])
 {
 	(void)argc;
+	(void)argv;
     // if (argc != 3)
     // {
     //     printf("Usage: %s <player1_exe> <player2_exe>\n", argv[0]);
     //     return 1;
     // }
-    t_player players[MAX_PLAYER] = {0};
-    for (int i = 0; i < MAX_PLAYER; i++)
-    {
-        init_player(argv[i+1], &players[i]);
-    }
-	init_hash_array();
+    // t_player players[MAX_PLAYER] = {0};
+    // for (int i = 0; i < MAX_PLAYER; i++)
+    // {
+    //     init_player(argv[i+1], &players[i]);
+    // }
 
 
 
-	t_axial tmp;
-	for (int i = -4; i < 4; i++)
-	{
-		for (int j = -4; j < 4; j++)
-		{
-			tmp.q = i;
-			tmp.r = j;
-			insert(tmp, 1);
-		}
+	// t_axial tmp;
+	// for (int i = -4; i < 4; i++)
+	// {
+	// 	for (int j = -4; j < 4; j++)
+	// 	{
+	// 		tmp.q = i;
+	// 		tmp.r = j;
+	// 		insert(tmp, 1);
+	// 	}
 		
-	}
+	// }
 	
-	insert_in_column(-4);
+	// insert_in_column(-4);
 	// int n = 0;
 	// for (int i = -SIZE + 1; i < SIZE; i++)
 	// {
@@ -238,39 +220,38 @@ int main(int argc, const char* argv[])
 
 	
 
-	// create_interface();
+	create_interface();
 
 
 
-    int winner = 0;
-    while (!winner)
-    {
-        //TURN FOR EACH PLAYER
-        //TODO : Create the game check if the move is legal / possible
-        //TODO Create the commands list/ protocol
-        //TODO Send the state of the game to the player
-        //TODO win condition
-        //TODO timeout for each player
-        //TODO everyhing else :D
-        //TODO Make the all thing safe enough so that the bot can crash without you crashing with it :D
+    // int winner = 0;
+    // while (!winner)
+    // {
+    //     //TURN FOR EACH PLAYER
+    //     //TODO : Create the game check if the move is legal / possible
+    //     //TODO Create the commands list/ protocol
+    //     //TODO Send the state of the game to the player
+    //     //TODO win condition
+    //     //TODO timeout for each player
+    //     //TODO everyhing else :D
+    //     //TODO Make the all thing safe enough so that the bot can crash without you crashing with it :D
 
-        for (int i = 0; i < MAX_PLAYER; i++)
-        {
-            char* line = NULL;
-            size_t len = 0;
-            const t_player* player = &players[i];
-            //send board state to the player
-            dprintf(player->stdin[STDOUT_FILENO], "Player %d - game state very interesting\n", i);
-            //read player move from the pipes
-            getline(&line, &len, player->reader);
-            printf("Player %d - move: %s", i, line);
-            free(line);
-        }
-        winner = 1;//Ez game
-    }
+    //     for (int i = 0; i < MAX_PLAYER; i++)
+    //     {
+    //         char* line = NULL;
+    //         size_t len = 0;
+    //         const t_player* player = &players[i];
+    //         //send board state to the player
+    //         dprintf(player->stdin[STDOUT_FILENO], "Player %d - game state very interesting\n", i);
+    //         //read player move from the pipes
+    //         getline(&line, &len, player->reader);
+    //         printf("Player %d - move: %s", i, line);
+    //         free(line);
+    //     }
+    //     winner = 1;//Ez game
+    // }
     printf("Game over\n");
-	// comments
-    (void)players;
+    // (void)players;
 }
 
 
