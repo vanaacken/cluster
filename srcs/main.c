@@ -3,8 +3,6 @@
 
 
 #define MAX_PLAYER 2
-#define HASH_SIZE 130
-
 
 
 
@@ -28,14 +26,6 @@
 // being python / rust / C++ or whatever (not JS it's not a language you better use brainfuck...)
 
 //+[----->+++<]>+.++++++++++++..----.+++.+[-->+<]>.-----------..++[->++<]>.+++++++.+++++++++++.[++>---<]>.--[-->+++++<]>--.-[--->+<]>.-[----->++<]>-.++++.[--->++++<]>-.--[--->+<]>.>+[--->++<]>++.----------.-[--->+<]>++.>-[--->+<]>.>++++++++++..
-
-
-
-t_hash_item* hash_array[HASH_SIZE];
-t_hash_item* item;
-t_hash_item* dummy_item;
-t_hex* hex;
-t_hex* dummy_hex;
 
 
 int hash(t_axial key)
@@ -64,7 +54,7 @@ t_hex *search(t_axial key)
 	return NULL;
 }
 
-int insert(t_axial key, int color)
+int insert(t_axial key, int color, t_hash_item **cur_hash_array)
 {
 	t_hex *hex = (t_hex*)malloc(sizeof(t_hex));
 	t_hash_item *item = (t_hash_item*)malloc(sizeof(t_hash_item));
@@ -73,13 +63,13 @@ int insert(t_axial key, int color)
 	item->hex = hex;
 	item->next = NULL;
 	int hash_index = hash(key);
-	if (hash_array[hash_index] == NULL)
+	if (*cur_hash_array[hash_index] == NULL)
 	{
-		hash_array[hash_index] = item;
+		*cur_hash_array[hash_index] = item;
 	}
 	else
 	{
-		t_hash_item *tmp = hash_array[hash_index];
+		t_hash_item *tmp = *cur_hash_array[hash_index];
 		while(tmp->next != NULL)
 		{
 			if (compare_axial(tmp->hex->axial, hex->axial))
@@ -159,7 +149,6 @@ void display_hash_array()
 
 }
 
-
 void init_hash_array()
 {
 	dummy_item = (t_hash_item*)malloc(sizeof(t_hash_item));
@@ -167,13 +156,6 @@ void init_hash_array()
 	dummy_hex->axial.q = -1;
 	dummy_item->hex = dummy_hex;
 }
-
-
-
-
-
-
-
 
 int insert_in_column(int column)
 {
@@ -238,7 +220,7 @@ int main(int argc, const char* argv[])
 
 	
 
-	// create_interface();
+	create_interface();
 
 
 

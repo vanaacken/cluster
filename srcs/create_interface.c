@@ -113,7 +113,7 @@ void	color_bg(t_img *canvas)
 		x = 0;
 		while (x < 1000)
 		{
-			my_mlx_pixel_put(canvas, x, y, BACKGROUND_COLOR);
+			my_mlx_pixel_put(canvas, x, y, BACKGROUND_COLOR_2);
 			x++;
 		}
 		y++;
@@ -158,8 +158,8 @@ int is_in_grid(float x, float y)
 			float y1 = (((float)sqrt(3)/2) * q) +((float)sqrt(3) * ((float)r + i));
 			x1 *= (g_size +PADDING);
 			y1 *= (g_size +PADDING);
-			x1 += 500;
-			y1 += 500;
+			x1 += 450;
+			y1 += 450;
 			if (x >= x1 - EPSILON && x <= x1 + EPSILON && y >= y1 - EPSILON && y <= y1 + EPSILON )
 				return (1);
 		}
@@ -173,8 +173,8 @@ void draw_hex(t_img *canvas, float q, float r, float x, float y)
 		float y1 = (((float)sqrt(3)/2) * q) +((float)sqrt(3) * ((float)r));
 		x1 *= (g_size +PADDING);
 		y1 *= (g_size +PADDING);
-		x1 += 500;
-		y1 += 500;
+		x1 += 450;
+		y1 += 450;
 
 		if (x >= x1 - EPSILON && x <= x1 + EPSILON && y >= y1 - EPSILON && y <= y1 + EPSILON )
 			place_hex(canvas, x + g_size, y + g_size, 0xbf2000);

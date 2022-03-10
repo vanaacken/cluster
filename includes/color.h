@@ -23,7 +23,11 @@
 
 # define BACKGROUND_COLOR	0xfaebd7
 # define BORDER_COLOR 0x483d8b
+# define BACKGROUND_COLOR_2 0x8c86b5
 
+# define INITIAL_RED 0xbf2000
+# define INITIAL_BLUE 0x366cc2
 
+#define BLA 0x360cc4
 
 #endif
