@@ -144,7 +144,6 @@ int is_hex_center(float q, float r, float x, float y)
 
 
 
-
 int is_in_grid(float x, float y)
 {
 	for (int q = -SIZE + 1; q < SIZE; q++)
@@ -167,18 +166,15 @@ int is_in_grid(float x, float y)
 	return (0);
 }
 
-void draw_hex(t_img *canvas, float q, float r, float x, float y)
+void draw_hex(t_img *canvas, float q, float r, int color)
 {
-		float x1 = ((float)3/2 * (float)q);
-		float y1 = (((float)sqrt(3)/2) * q) +((float)sqrt(3) * ((float)r));
-		x1 *= (g_size +PADDING);
-		y1 *= (g_size +PADDING);
-		x1 += 500;
-		y1 += 500;
-
-		if (x >= x1 - EPSILON && x <= x1 + EPSILON && y >= y1 - EPSILON && y <= y1 + EPSILON )
-			place_hex(canvas, x + g_size, y + g_size, 0xbf2000);
-		// 	return (1);
+		float x = ((float)3/2 * (float)q);
+		float y = (((float)sqrt(3)/2) * q) +((float)sqrt(3) * ((float)r));
+		x *= (g_size +PADDING);
+		y *= (g_size +PADDING);
+		x += 500;
+		y += 500;
+		place_hex(canvas, x + g_size, y + g_size, color);
 }
 
 
@@ -187,58 +183,32 @@ int g_total_rows = 17;
 
 int	create_grid(t_img *canvas)
 {
-
-	// float x = 0;
-	// float y = 0;
-	// float w = 2 * g_size;
-	// float h = sqrt(3) * g_size;
-	// int row = 0;
-	// int col = 0;
-
-	// float	start_x = 499 - ((g_total_cols / 2) * (w * 3/4) + (w * 3/4) / 2);
 	color_bg(canvas);
-	// y = 499 - ((g_total_rows / 2) * g_size);
-	for (size_t y_index = 0; y_index < 1000; y_index++)
+	for(int q = -SIZE + 1; q < SIZE; q++)
 	{
-		for (size_t x_index = 0; x_index < 1000; x_index++)
+		int r = fmax(-SIZE + 1, -SIZE + 1 - q);
+		int column_len = (2*SIZE -1 - abs(q));
+		for (int i = column_len - 1; i >= 0; --i)
 		{
-			if(is_in_grid(x_index, y_index))
-			{
-				place_hex(canvas, x_index + g_size, y_index + g_size, BACKGROUND_COLOR);
-				draw_hex(canvas, 0,0,x_index,y_index);
-			}
+			draw_hex(canvas, q, r+ i, BACKGROUND_COLOR);
 		}
 	}
-		
-	return (0);
-
 	
-	// while (row < g_total_rows)
+	
+	
+	
+	
+	// for (size_t y_index = 0; y_index < 1000; y_index++)
 	// {
-	// 	x = start_x;
-	// 	col = 0;
-	// 	if (row % 2 != 0)
+	// 	for (size_t x_index = 0; x_index < 1000; x_index++)
 	// 	{
-	// 		col++;
-	// 		x += w * 3/4;
+	// 		if(is_in_grid(x_index, y_index))
+	// 		{
+	// 			place_hex(canvas, x_index + g_size, y_index + g_size, BACKGROUND_COLOR);
+	// 		}
 	// 	}
-	// 	while (col < g_total_cols)
-	// 	{
-	// 		if (row >= 0 && row <= 16 && col == 4)
-	// 			place_hex(canvas, x + g_size, y + g_size, BACKGROUND_COLOR);
-	// 		else if (row >= 1 && row <= 15 && col >= 2 && col <= 6)
-	// 			place_hex(canvas, x + g_size, y + g_size, BACKGROUND_COLOR);
-	// 		else if (row >= 3 && row <= 13 && col >= 0 && col <= 8)
-	// 			place_hex(canvas, x + g_size, y + g_size, BACKGROUND_COLOR);
-	// 		if (row == 16 && col == 4)
-	// 			place_hex(canvas, x + g_size, y + g_size, 0xbf2000);
-	// 		x += g_size * 3;
-	// 		col += 2;
-	// 	}
-	// 	row++;
-	// 	y += h / 2;
 	// }
-	// return (0);
+	return (0);
 }
 
 int	create_interface(void)
@@ -250,8 +220,10 @@ int	create_interface(void)
 	vars.win = mlx_new_window(vars.mlx, 1000, 1000, "CLUSTER");
 	canvas = create_img(&vars, 1000, 1000);
 	create_grid(&canvas);
+	draw_hex(&canvas, 0,0, 0x382195);
 	mlx_put_image_to_window(vars.mlx, vars.win, canvas.img, 0, 0);
 	mlx_loop(vars.mlx);
+
 	return (0);
 }
 

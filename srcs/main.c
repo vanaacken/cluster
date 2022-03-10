@@ -101,15 +101,15 @@ int insert(t_axial key, int color)
 	return 1;
 }
 
-int delete(t_axial axial)
+int delete(t_axial key)
 {
-	int hash_index = hash(axial);
+	int hash_index = hash(key);
 	t_hash_item *tmp;
 	t_hash_item *prev;
 	if (hash_array[hash_index] == NULL)
 		return 0;
 	tmp = hash_array[hash_index];
-	if (compare_axial(hash_array[hash_index]->hex->axial, axial))
+	if (compare_axial(hash_array[hash_index]->hex->axial, key))
 	{
 		hash_array[hash_index] = hash_array[hash_index]->next;
 		free(tmp->hex);
@@ -120,7 +120,7 @@ int delete(t_axial axial)
 	tmp = tmp->next;
 	while(tmp)
 	{
-		if (compare_axial(tmp->hex->axial, axial))
+		if (compare_axial(tmp->hex->axial, key))
 		{
 			prev->next = tmp->next;
 			free(tmp->hex);
@@ -238,7 +238,7 @@ int main(int argc, const char* argv[])
 
 	
 
-	// create_interface();
+	create_interface();
 
 
 
