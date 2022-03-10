@@ -197,12 +197,13 @@ int insert_in_column(int column)
 
 int main(int argc, const char* argv[])
 {
-
-    if (argc != 3)
-    {
-        printf("Usage: %s <player1_exe> <player2_exe>\n", argv[0]);
-        return 1;
-    }
+	(void)argc;
+	(void)argv;
+    // if (argc != 3)
+    // {
+    //     printf("Usage: %s <player1_exe> <player2_exe>\n", argv[0]);
+    //     return 1;
+    // }
     // t_player players[MAX_PLAYER] = {0};
     // for (int i = 0; i < MAX_PLAYER; i++)
     // {
@@ -211,19 +212,19 @@ int main(int argc, const char* argv[])
 
 
 
-	t_axial tmp;
-	for (int i = -4; i < 4; i++)
-	{
-		for (int j = -4; j < 4; j++)
-		{
-			tmp.q = i;
-			tmp.r = j;
-			insert(tmp, 1);
-		}
+	// t_axial tmp;
+	// for (int i = -4; i < 4; i++)
+	// {
+	// 	for (int j = -4; j < 4; j++)
+	// 	{
+	// 		tmp.q = i;
+	// 		tmp.r = j;
+	// 		insert(tmp, 1);
+	// 	}
 		
-	}
+	// }
 	
-	insert_in_column(-4);
+	// insert_in_column(-4);
 	// int n = 0;
 	// for (int i = -SIZE + 1; i < SIZE; i++)
 	// {

@@ -12,8 +12,10 @@
 # include "color.h"
 # include "../MLX42/include/MLX42/MLX42.h"
 
-#define SIZE 5
+#define SIZE 10
+#define G_SIZE 20
 #define N_COLORS 2
+#define OFFSET_WINDOW 500
 
 #define SUCCES 1
 #define ERROR 0
