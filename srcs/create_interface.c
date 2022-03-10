@@ -3,13 +3,11 @@
 
 int	g_size = 50;
 
-t_img	create_img(t_vars *vars, int w, int h)
+t_img	create_img(mlx_t *mlx, int w, int h)
 {
 	t_img	img;
 
-	img.img = mlx_new_image(vars->mlx, w, h);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel,
-			&img.line_length, &img.endian);
+	img.img = mlx_new_image(mlx, w, h);
 	return (img);
 }
 
@@ -213,17 +211,18 @@ int	create_grid(t_img *canvas)
 
 int	create_interface(void)
 {
-	t_vars	vars;
+	mlx_t	*mlx;
 	t_img	canvas;
 
-	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, 1000, 1000, "CLUSTER");
-	canvas = create_img(&vars, 1000, 1000);
+	mlx = mlx_init(1000, 1000, "CLUSTER", true);
+	canvas = create_img(mlx, 1000, 1000);
 	create_grid(&canvas);
-	draw_hex(&canvas, 0,0, 0x382195);
-	mlx_put_image_to_window(vars.mlx, vars.win, canvas.img, 0, 0);
-	mlx_loop(vars.mlx);
-
+	mlx_image_to_window(mlx, canvas.img, 0, 0);
+	mlx_loop(mlx);
 	return (0);
 }
 
+// int main(void)
+// {
+// 	create_interface();
+// }
