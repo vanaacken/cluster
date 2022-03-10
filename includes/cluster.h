@@ -3,9 +3,10 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-# include "../mlx/mlx.h"
+// # include "../mlx/mlx.h"
 # include <math.h>
 # include "color.h"
+# include "../MLX42/include/MLX42/MLX42.h"
 
 #define SIZE 5
 #define N_COLORS 2
@@ -46,7 +47,7 @@ typedef struct s_color{
 
 typedef struct s_hex{
 	t_axial axial;
-	t_color color;
+	int color;
 	bool sentinel;
 }		t_hex;
 
@@ -77,6 +78,7 @@ int init_data(t_data *data);
 
 //my_pixel_put
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+int		create_interface(void);
 
 
 
