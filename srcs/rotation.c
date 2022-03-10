@@ -32,4 +32,3 @@ int	rotate_cluster(int num_rotations)
 		}
 	}
 }
-
