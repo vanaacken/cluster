@@ -54,7 +54,7 @@ t_hex *search(t_axial key)
 	return NULL;
 }
 
-int insert(t_axial key, int color, t_hash_item *cur_hash_array[HASH_SIZE])
+int insert(t_axial key, int color, t_hash_item **cur_hash_array[HASH_SIZE])
 {
 	t_hex *hex = (t_hex*)malloc(sizeof(t_hex));
 	t_hash_item *item = (t_hash_item*)malloc(sizeof(t_hash_item));
@@ -63,13 +63,13 @@ int insert(t_axial key, int color, t_hash_item *cur_hash_array[HASH_SIZE])
 	item->hex = hex;
 	item->next = NULL;
 	int hash_index = hash(key);
-	if (cur_hash_array[hash_index] == NULL)
+	if (*cur_hash_array[hash_index] == NULL)
 	{
-		cur_hash_array[hash_index] = item;
+		*cur_hash_array[hash_index] = item;
 	}
 	else
 	{
-		t_hash_item *tmp = cur_hash_array[hash_index];
+		t_hash_item *tmp = *cur_hash_array[hash_index];
 		while(tmp->next != NULL)
 		{
 			if (compare_axial(tmp->hex->axial, hex->axial))
