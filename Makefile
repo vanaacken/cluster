@@ -3,7 +3,9 @@ NAME	=		cluster
 SRCS	=		./srcs/main.c \
 				./srcs/create_interface.c \
 				./srcs/init.c \
-				./srcs/my_mlx_pixel_put.c
+				./srcs/my_mlx_pixel_put.c \
+				./srcs/fall_flow_c.c
+
 FLAGS	=		-Wall -Werror -Wextra -Imlx -g
 
 MLX		=		mlx/libmlx.dylib
