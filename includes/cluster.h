@@ -3,16 +3,11 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-<<<<<<< HEAD
 #include <sys/types.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-# include "../mlx/mlx.h"
-=======
-// # include "../mlx/mlx.h"
->>>>>>> MLX-framework
 # include <math.h>
 # include "color.h"
 # include "../MLX42/include/MLX42/MLX42.h"
