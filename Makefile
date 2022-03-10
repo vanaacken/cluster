@@ -3,6 +3,7 @@ NAME	=		cluster
 SRCS	=		./srcs/main.c \
 				./srcs/create_interface.c \
 				./srcs/my_mlx_pixel_put.c \
+				./srcs/rotation.c
 #				./srcs/init.c \
 
 FLAGS	=		-Wall -Werror -Wextra #-Imlx -g
