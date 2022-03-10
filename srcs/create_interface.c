@@ -1,7 +1,6 @@
 // #include "cluster.h"
 #include "../includes/cluster.h"
 
-
 float	determine_hex_corners(float (*corners)[6][2], int center_x, int center_y, int size)
 {
 	float angle_deg;
@@ -165,7 +164,6 @@ int g_total_rows = 17;
 
 int	create_grid(mlx_image_t *canvas)
 {
-	color_bg(canvas);
 	for(int q = -SIZE + 1; q < SIZE; q++)
 	{
 		int r = fmax(-SIZE + 1, -SIZE + 1 - q);
@@ -173,13 +171,14 @@ int	create_grid(mlx_image_t *canvas)
 		for (int i = column_len - 1; i >= 0; --i)
 		{
 			draw_hex(canvas, q, r+ i, BACKGROUND_COLOR);
+			t_axial tmp;
+			tmp.q = q;
+			tmp.r = r + i; 
+			t_hex *tmp_hex = search(tmp);
+			if (tmp_hex)
+				draw_hex(canvas, q, r + i, tmp_hex->color);
 		}
 	}
-	
-	
-	
-	
-	
 	// for (size_t y_index = 0; y_index < 1000; y_index++)
 	// {
 	// 	for (size_t x_index = 0; x_index < 1000; x_index++)
@@ -193,15 +192,27 @@ int	create_grid(mlx_image_t *canvas)
 	return (0);
 }
 
+static mlx_t	*mlx;
+
+void	rotate_tiles(mlx_key_data_t keydata, void *param)
+{
+	mlx_image_t *canvas = param;
+
+	(void) keydata;
+	create_grid(canvas);
+	mlx_image_to_window(mlx, canvas, 0, 0);
+	rotate_cluster(2);
+}
+
 int	create_interface(void)
 {
-	mlx_t	*mlx;
+
 	mlx_image_t	*canvas;
 
 	mlx = mlx_init(1000, 1000, "CLUSTER", true);
 	canvas = mlx_new_image(mlx, 1000, 1000);
-	create_grid(canvas);
-	mlx_image_to_window(mlx, canvas, 0, 0);
+	color_bg(canvas);
+	mlx_key_hook(mlx, rotate_tiles, canvas);
 	mlx_loop(mlx);
 	return (0);
 }

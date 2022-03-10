@@ -54,7 +54,7 @@ t_hex *search(t_axial key)
 	return NULL;
 }
 
-int insert(t_axial key, int color, t_hash_item **cur_hash_array[HASH_SIZE])
+int insert_other(t_axial key, int color)
 {
 	t_hex *hex = (t_hex*)malloc(sizeof(t_hex));
 	t_hash_item *item = (t_hash_item*)malloc(sizeof(t_hash_item));
@@ -63,13 +63,13 @@ int insert(t_axial key, int color, t_hash_item **cur_hash_array[HASH_SIZE])
 	item->hex = hex;
 	item->next = NULL;
 	int hash_index = hash(key);
-	if (*cur_hash_array[hash_index] == NULL)
+	if (rotated_hash_array[hash_index] == NULL)
 	{
-		*cur_hash_array[hash_index] = item;
+		rotated_hash_array[hash_index] = item;
 	}
 	else
 	{
-		t_hash_item *tmp = *cur_hash_array[hash_index];
+		t_hash_item *tmp = rotated_hash_array[hash_index];
 		while(tmp->next != NULL)
 		{
 			if (compare_axial(tmp->hex->axial, hex->axial))
@@ -91,17 +91,87 @@ int insert(t_axial key, int color, t_hash_item **cur_hash_array[HASH_SIZE])
 	return 1;
 }
 
-int delete(t_axial axial, t_hash_item **cur_hash_array[HASH_SIZE])
+int delete_other(t_axial axial)
 {
 	int hash_index = hash(axial);
 	t_hash_item *tmp;
 	t_hash_item *prev;
-	if (*cur_hash_array[hash_index] == NULL)
+	if (rotated_hash_array[hash_index] == NULL)
 		return 0;
-	tmp = *cur_hash_array[hash_index];
-	if (compare_axial((*cur_hash_array)[hash_index]->hex->axial, axial))
+	tmp = rotated_hash_array[hash_index];
+	if (compare_axial((rotated_hash_array)[hash_index]->hex->axial, axial))
 	{
-		*cur_hash_array[hash_index] = (*cur_hash_array)[hash_index]->next;
+		rotated_hash_array[hash_index] = (rotated_hash_array)[hash_index]->next;
+		free(tmp->hex);
+		free(tmp);
+		return (1);
+	}
+	prev = tmp;
+	tmp = tmp->next;
+	while(tmp)
+	{
+		if (compare_axial(tmp->hex->axial, axial))
+		{
+			prev->next = tmp->next;
+			free(tmp->hex);
+			free(tmp);
+			return (1);
+		}
+		prev = tmp;
+		tmp = tmp->next;
+	}
+	return (0);
+
+}
+
+int insert(t_axial key, int color)
+{
+	t_hex *hex = (t_hex*)malloc(sizeof(t_hex));
+	t_hash_item *item = (t_hash_item*)malloc(sizeof(t_hash_item));
+	hex->axial = key;
+	hex->color = color;
+	item->hex = hex;
+	item->next = NULL;
+	int hash_index = hash(key);
+	if (hash_array[hash_index] == NULL)
+	{
+		hash_array[hash_index] = item;
+	}
+	else
+	{
+		t_hash_item *tmp = hash_array[hash_index];
+		while(tmp->next != NULL)
+		{
+			if (compare_axial(tmp->hex->axial, hex->axial))
+			{
+				free(hex);
+				free(item);
+				return 0;
+			}
+			tmp = tmp->next;
+		}
+		if (compare_axial(tmp->hex->axial, hex->axial))
+		{
+			free(hex);
+			free(item);
+			return 0;
+		}
+		tmp->next = item;
+	}
+	return 1;
+}
+
+int delete(t_axial axial)
+{
+	int hash_index = hash(axial);
+	t_hash_item *tmp;
+	t_hash_item *prev;
+	if (hash_array[hash_index] == NULL)
+		return 0;
+	tmp = hash_array[hash_index];
+	if (compare_axial(hash_array[hash_index]->hex->axial, axial))
+	{
+		hash_array[hash_index] = hash_array[hash_index]->next;
 		free(tmp->hex);
 		free(tmp);
 		return (1);
@@ -194,19 +264,22 @@ int main(int argc, const char* argv[])
 
 
 
-	// t_axial tmp;
-	// for (int i = -4; i < 4; i++)
-	// {
-	// 	for (int j = -4; j < 4; j++)
-	// 	{
-	// 		tmp.q = i;
-	// 		tmp.r = j;
-	// 		insert(tmp, 1);
-	// 	}
+	t_axial tmp;
+	for (int i = -4; i < 4; i++)
+	{
+		for (int j = -4; j < 4; j++)
+		{
+			tmp.q = i;
+			tmp.r = j;
+			if (j % 2 == 0)
+				insert(tmp, INITIAL_BLUE);
+			else
+				insert(tmp, INITIAL_RED);
+		}
 		
-	// }
+	}
 	
-	// insert_in_column(-4);
+	insert_in_column(-4);
 	// int n = 0;
 	// for (int i = -SIZE + 1; i < SIZE; i++)
 	// {
@@ -218,10 +291,14 @@ int main(int argc, const char* argv[])
 	// }
 	display_hash_array();
 
+	rotate_cluster(1);
+
+
+	// display_hash_array();
 	
 
 	create_interface();
-
+ 
 
 
     // int winner = 0;

@@ -158,7 +158,7 @@ int choose_column_and_place_tile(t_player *player, char tiles)
 
 int error_free(char *tiles)
 {
-	printf ("Invalid imput, you lost yourtiles/n");
+	printf ("Invalid imput, you lost your tiles/n");
 	free (tiles);
 	return 1;
 }
@@ -169,7 +169,7 @@ int error_free(char *tiles)
 int player_input_processing(t_player *player)
 {
 	char *tiles = random_hex(player);
-	int choise;
+	int choice;
 	int color_one = translate_color(tiles[0], player->player_id);
 	if (!tiles[1])
 	{	
@@ -179,14 +179,14 @@ int player_input_processing(t_player *player)
 	}
 	int color_two = translate_color(tiles[1], player->player_id);
 	printf("You draw the colors %d and %d, do you want? r for rotate, to place choose posizion of the color 1 or 2\n", color_one, color_two);
-	scanf ("%c", &choise);
-	if (choise == 'r')
+	scanf ("%c", &choice);
+	if (choice == 'r')
 		todo;
-	else if (choise ==  '1' || choise == '2')
+	else if (choice ==  '1' || choice == '2')
 	{	
-		if(!choose_column_and_place_tile(player, choise))
+		if(!choose_column_and_place_tile(player, choice))
 			return (error_free(tiles));
-		if (choise == tiles [0])
+		if (choice == tiles [0])
 			put_back_hex(player, tiles[1]);
 		else
 			put_back_hex(player, tiles[1]);

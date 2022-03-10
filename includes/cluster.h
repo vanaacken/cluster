@@ -85,6 +85,7 @@ typedef struct s_data{
 } t_data;
 
 t_hash_item* hash_array[HASH_SIZE];
+t_hash_item* rotated_hash_array[HASH_SIZE];
 t_hash_item* item;
 t_hash_item* dummy_item;
 t_hex* hex;
@@ -94,8 +95,11 @@ int init_player(const char* path, t_player* player);
 int init_grid(t_hex *grid);
 int init_data(t_data *data);
 
-int insert(t_axial key, int color, t_hash_item **cur_hash_array[HASH_SIZE]);
-int delete(t_axial axial, t_hash_item **cur_hash_array[HASH_SIZE]);
+int insert(t_axial key, int color);
+int insert_other(t_axial key, int color);
+int delete_other(t_axial axial);
+int delete(t_axial axial);
+t_hex *search(t_axial key);
 
 //my_pixel_put
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
@@ -103,6 +107,7 @@ int		create_interface(void);
 
 int	create_interface(void);
 
+int	rotate_cluster(int num_rotations);
 
 
 #endif
