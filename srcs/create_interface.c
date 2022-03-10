@@ -101,7 +101,7 @@ void	color_bg(mlx_image_t *canvas)
 		x = 0;
 		while (x < 1000)
 		{
-			mlx_put_pixel(canvas, x, y, BACKGROUND_COLOR);
+			mlx_put_pixel(canvas, x, y, BACKGROUND_COLOR_2);
 			x++;
 		}
 		y++;
@@ -208,10 +208,14 @@ int	create_interface(void)
 {
 
 	mlx_image_t	*canvas;
+	mlx_image_t *string;
 
 	mlx = mlx_init(1000, 1000, "CLUSTER", true);
 	canvas = mlx_new_image(mlx, 1000, 1000);
 	color_bg(canvas);
+	string = mlx_put_string(mlx, "PRESS ANY BUTTON", 500, 500);
+	mlx_image_to_window(mlx, canvas, 0, 0);
+	mlx_image_to_window(mlx, string, 300, 500);
 	mlx_key_hook(mlx, rotate_tiles, canvas);
 	mlx_loop(mlx);
 	return (0);
