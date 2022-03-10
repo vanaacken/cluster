@@ -92,7 +92,8 @@ int init_player(const char* path, t_player* player);
 int init_grid(t_hex *grid);
 int init_data(t_data *data);
 
-int insert(t_axial key, int color, t_hash_item **cur_hash_array);
+int insert(t_axial key, int color, t_hash_item **cur_hash_array[HASH_SIZE]);
+int delete(t_axial axial, t_hash_item **cur_hash_array[HASH_SIZE]);
 
 //my_pixel_put
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);

@@ -1,7 +1,5 @@
 #include "cluster.h"
 
-t_hash_item* rotated_hash_array[HASH_SIZE];
-
 void	rotation(int num_rotations, t_axial *tmp)
 {
 	while (num_rotations >= 0)
@@ -13,7 +11,7 @@ void	rotation(int num_rotations, t_axial *tmp)
 	}
 }
 
-int	rotate_cluster(int num_rotations)
+int	reinsert_hash_table(t_hash_item **rotated_hash_array[HASH_SIZE])
 {
 	int n = 0;
 	t_axial	axial_tmp;
@@ -24,11 +22,41 @@ int	rotate_cluster(int num_rotations)
 			t_hash_item *tmp = hash_array[i];
 			while (tmp != NULL)
 			{
-				rotation(num_rotations, &axial_tmp);
-				insert(axial_tmp, tmp->hex->color, &rotated_hash_array);
+				if (!insert(axial_tmp, tmp->hex->color, &hash_array))
+					return 0;
+				if (!delete(axial_tmp, rotated_hash_array))
+					return 0;
 				tmp = tmp->next;
 				n++;
 			}
 		}
 	}
+	return 1;
+}
+
+int	rotate_cluster(int num_rotations)
+{
+	t_hash_item* rotated_hash_array[HASH_SIZE];
+	int n = 0;
+	t_axial	axial_tmp;
+	for (size_t i = 0; i < HASH_SIZE; i++)
+	{
+		if (hash_array[i] != NULL)
+		{
+			t_hash_item *tmp = hash_array[i];
+			while (tmp != NULL)
+			{
+				rotation(num_rotations, &axial_tmp);
+				if (!insert(axial_tmp, tmp->hex->color, &rotated_hash_array))
+					return 0;
+				if (!delete(axial_tmp, &hash_array))
+					return 0;
+				tmp = tmp->next;
+				n++;
+			}
+		}
+	}
+	if (!reinsert_hash_table(&rotated_hash_array))
+		return 0;
+	return 1;
 }
