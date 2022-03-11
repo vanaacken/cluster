@@ -26,6 +26,8 @@
 # define BACKGROUND_COLOR_2 0x8c86b5FF
 
 # define INITIAL_RED 0xbf2000FF
+# define INITIAL_RED2 0xbf00FFFF
 # define INITIAL_BLUE 0x366cc2FF
+# define INITIAL_BLUE2 0x3FFcc2FF
 
 #endif

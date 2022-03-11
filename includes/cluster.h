@@ -23,7 +23,7 @@
 #define EPSILON 0.5
 #define PADDING 4
 
-#define HASH_SIZE 130
+#define HASH_SIZE 300
 
 typedef struct s_img {
 	void	*img;
@@ -100,6 +100,7 @@ int insert_other(t_axial key, int color);
 int delete_other(t_axial axial);
 int delete(t_axial axial);
 t_hex *search(t_axial key);
+t_hex *search_other(t_axial key);
 
 //my_pixel_put
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
@@ -108,6 +109,7 @@ int		create_interface(void);
 int	create_interface(void);
 
 int	rotate_cluster(int num_rotations);
+int	add_gravity();
 
 
 #endif

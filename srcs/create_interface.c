@@ -194,11 +194,11 @@ int	create_grid(mlx_image_t *canvas)
 
 static mlx_t	*mlx;
 
-void	rotate_tiles(mlx_key_data_t keydata, void *param)
+void	rotate_tiles(void *param)
 {
 	mlx_image_t *canvas = param;
 
-	(void) keydata;
+	add_gravity();
 	create_grid(canvas);
 	mlx_image_to_window(mlx, canvas, 0, 0);
 	rotate_cluster(2);
@@ -216,7 +216,7 @@ int	create_interface(void)
 	string = mlx_put_string(mlx, "PRESS ANY BUTTON", 500, 500);
 	mlx_image_to_window(mlx, canvas, 0, 0);
 	mlx_image_to_window(mlx, string, 300, 500);
-	mlx_key_hook(mlx, rotate_tiles, canvas);
+	mlx_loop_hook(mlx, rotate_tiles, canvas);
 	mlx_loop(mlx);
 	return (0);
 }

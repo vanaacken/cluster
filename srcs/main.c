@@ -54,6 +54,22 @@ t_hex *search(t_axial key)
 	return NULL;
 }
 
+t_hex *search_other(t_axial key)
+{
+
+	int hash_index = hash(key);
+	while(rotated_hash_array[hash_index] != NULL)
+	{
+		if (compare_axial(rotated_hash_array[hash_index]->hex->axial, key))
+		{
+			return (rotated_hash_array[hash_index]->hex);
+		}
+		++hash_index;
+		hash_index %= HASH_SIZE;
+	}	
+	return NULL;
+}
+
 int insert_other(t_axial key, int color)
 {
 	t_hex *hex = (t_hex*)malloc(sizeof(t_hex));
@@ -265,19 +281,32 @@ int main(int argc, const char* argv[])
 
 
 	t_axial tmp;
-	for (int i = -4; i < 4; i++)
+	for(int q = -SIZE + 1; q < SIZE; q++)
 	{
-		for (int j = -4; j < 4; j++)
+		int r = fmax(-SIZE + 1, -SIZE + 1 - q);
+		int column_len = (2*SIZE -1 - abs(q));
+		for (int i = column_len - 1; i >= 0; --i)
 		{
-			tmp.q = i;
-			tmp.r = j;
-			if (j % 2 == 0)
+			tmp.q = q;
+			tmp.r = r + i;
+			switch (arc4random() % 4)
+			{
+			case 0:
 				insert(tmp, INITIAL_BLUE);
-			else
+				break;
+			case 1:
+				insert(tmp, INITIAL_BLUE2);
+				break;
+			case 2:
 				insert(tmp, INITIAL_RED);
+				break;
+			case 3:
+				insert(tmp, INITIAL_RED2);
+				break;
+			}
 		}
-		
 	}
+
 	
 	insert_in_column(-4);
 	// int n = 0;
