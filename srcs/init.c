@@ -57,19 +57,19 @@ int init_player(const char* path, t_player* player)
     return SUCCES;
 }
 
-int init_grid(t_hex *grid)
-{
+// int init_grid(t_hex *grid)
+// {
 
 	
 
-	return SUCCES;
-}
+// 	return SUCCES;
+// }
 
-int init_data(t_data *data)
-{
+// int init_data(t_data *data)
+// {
 
-	return SUCCES;
-}
+// 	return SUCCES;
+// }
 
 
 
